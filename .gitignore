@@ -15,3 +15,5 @@ venv/
 #Répertoire de dépèendes ou dde compilation
 
 node_modules
+
+~$*
