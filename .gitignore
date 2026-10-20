@@ -1,0 +1,17 @@
+#Fichier temporaires et du systèmes 
+*.tmp 
+*.log
+
+#Paramètres locaux et secrets
+.env
+.env.*
+
+#Environnements Pyhton et caches 
+
+__pycache__/
+.venv/
+venv/
+
+#Répertoire de dépèendes ou dde compilation
+
+node_modules
