@@ -1,0 +1,76 @@
+#include <Wire.h>
+#include <rgb_lcd.h>
+#include <DHT.h>
+#include "RTC.h"
+
+#define LED_VIE 13
+
+rgb_lcd lcd;
+DHT dht(A0, DHT22);
+
+float t = 0;
+float h = 0;
+
+int compteur = 0;   
+bool etatLed = false;
+
+void deuxChiffres(int valeur)
+{
+  if (valeur < 10) lcd.print("0");
+  lcd.print(valeur);
+}
+
+void setup()
+{
+  pinMode(LED_VIE, OUTPUT);
+  dht.begin();
+
+  lcd.begin(16, 2);
+  lcd.setRGB(0, 0, 255);
+
+  RTC.begin();
+  RTCTime depart(21, Month::OCTOBER, 2026, 14, 45, 0,
+                 DayOfWeek::WEDNESDAY, SaveLight::SAVING_TIME_INACTIVE);
+  RTC.setTime(depart);
+}
+
+void loop()
+{
+  delay(500);
+  compteur++;
+
+  etatLed = !etatLed;
+  digitalWrite(LED_VIE, etatLed);
+
+  if (compteur % 2 == 0) {
+    RTCTime maintenant;
+    RTC.getTime(maintenant);
+
+    lcd.setCursor(0, 0);
+    lcd.print(maintenant.getDayOfMonth());
+    lcd.print("/");
+    lcd.print(Month2int(maintenant.getMonth()));
+    lcd.print("/");
+    lcd.print(maintenant.getYear() % 100);
+    lcd.print(" ");
+    deuxChiffres(maintenant.getHour());
+    lcd.print(":");
+    deuxChiffres(maintenant.getMinutes());
+    lcd.print(":");
+    deuxChiffres(maintenant.getSeconds());
+  }
+
+  if (compteur % 4 == 0) {
+    t = dht.readTemperature();
+    h = dht.readHumidity();
+
+    lcd.setCursor(0, 1);
+    lcd.print("T ");
+    lcd.print(t, 1);
+    lcd.print("oC/H ");
+    lcd.print(h, 1);
+    lcd.print("%");
+  }
+
+  if (compteur == 4) compteur = 0;
+}
