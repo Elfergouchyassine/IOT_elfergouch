@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit
 from client_mqtt import ClientMQTT
 from thread_mqtt import ThreadMQTT
 from mon_ihm import Ui_MainWindow
+from dialogue_courbe import CourbeDialog
 
 # ---------------- Paramètres par défaut ----------------
 id_pc = 42920
@@ -72,6 +73,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnBlink.clicked.connect(self.customBlink)
         self.lneBargraph.returnPressed.connect(self.setBargraph)
         self.actionQuitter.triggered.connect(self.quit)
+        self.actionCourbes.triggered.connect(self.afficherCourbes)
 
         self.set_connected(False)
 
@@ -162,6 +164,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         self.mqtt.publish_mqtt(topic_bargraphe, int(texte))
         self.statusbar.showMessage(f"Bargraphe : {texte}")
+
+    # afficherCourbes : ouvre la boîte de dialogue des courbes (section 6.4)
+    def afficherCourbes(self):
+        dialogue = CourbeDialog()
+        dialogue.exec()
 
     # quit : quitter proprement (menu Fichier > Quitter)
     def quit(self):

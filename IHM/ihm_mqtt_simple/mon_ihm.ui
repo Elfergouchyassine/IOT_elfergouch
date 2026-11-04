@@ -299,11 +299,18 @@
     <property name="title">
      <string>Fichier</string>
     </property>
+    <addaction name="actionCourbes"/>
+    <addaction name="separator"/>
     <addaction name="actionQuitter"/>
    </widget>
    <addaction name="menuFichier"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCourbes">
+   <property name="text">
+    <string>Afficher les courbes</string>
+   </property>
+  </action>
   <action name="actionQuitter">
    <property name="text">
     <string>Quitter</string>
