@@ -22,3 +22,6 @@ node_modules
 Rapport/
 .vscode/
   
+
+#Interface web : base SQLite locale
+interface_web/data/

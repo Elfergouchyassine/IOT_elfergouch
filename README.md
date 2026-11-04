@@ -65,15 +65,38 @@ IOT_elfergouch/
 │   ├── console_mqtt_thread/     lecture et écriture réunies grâce à un thread
 │   └── ihm_mqtt_simple/         IHM PySide6 + base SQLite + courbes (version finale)
 │
+├── interface_web/         Pour aller plus loin – la même IHM dans un navigateur (Node.js)
+│
 └── Compte Rendu_VF.pdf    compte rendu final des 3 TP
 ```
 
 > Pour lancer l'IHM finale : `pip install paho-mqtt PySide6 matplotlib`, puis
 > `python IHM/ihm_mqtt_simple/main.py`.
 
+## Pour aller plus loin : l'interface web
+
+`interface_web/` reprend l'IHM PySide6 dans un navigateur. Elle a trois onglets :
+- **Tableau de bord** : connexion au broker, mesures en direct, commandes du capteur (NTP,
+  start/stop, clignotements, bargraphe) ;
+- **Courbes** : température et humidité entre deux dates ;
+- **Base de données** : tableau des mesures archivées.
+
+```
+Navigateur (HTML + JS natif + Chart.js)
+     │ REST            ▲ temps réel (Server-Sent Events)
+     ▼                 │
+Serveur Express ── client MQTT ──► Broker Mosquitto ◄──► Arduino UNO R4
+     │
+     ▼
+SQLite (même table IOT_Data que l'IHM Python)
+```
+
+Lancement : `cd interface_web`, `npm install`, `npm start`, puis ouvrir http://localhost:3000.
+Le détail (API, fichiers) est dans [interface_web/README.md](interface_web/README.md).
+
 ## Le rapport
 
-Le compte rendu final est **`Compte Rendu_VF.pdf`**, à la racine du dépôt. Il suit les 3 TP.
+Le compte rendu final est **`Compte Rendu_VF.pdf`**, à la racine du dépôt. Il suit les 3 TP, puis présente l'interface web.
 Chaque partie commence par le lien avec le cours, puis montre les résultats (captures
 SimulIDE, MQTTX, Wireshark, IHM) et répond aux questions de l'énoncé.
 
