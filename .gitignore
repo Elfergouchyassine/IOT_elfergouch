@@ -21,3 +21,4 @@ node_modules
 #Rapport LaTeX (sources locales, seul le PDF final est versionne)
 Rapport/
 .vscode/
+  
